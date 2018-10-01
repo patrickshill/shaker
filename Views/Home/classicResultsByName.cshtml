@@ -1,0 +1,27 @@
+<div class="nav-main">
+    <ul id="nav-list">
+        <a href="/classics"><li>Classics</li></a>
+        <a href="/userrecipes"><li>User Recipes</li></a>
+        <a href="/">
+            <li id="logo-bg-small">
+                <img id="nav-logo-small" src="~/images/Shakerlogo.svg" alt="">
+                <div ></div>
+            </li>
+        </a>
+        <a href="/about"><li>About</li></a>
+        <a href="/login"><li>Login</li></a>
+    </ul>
+</div>
+<div class="container" >
+    <div class="section-dark" id="classic-results-container">
+        <div id="classic-search-results">
+            @foreach(var rec in ViewBag.results) {
+                <a href="/recipe/@rec.id">
+                    <div class="recipe-results-card">
+                        <h2>@rec.name</h2>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>

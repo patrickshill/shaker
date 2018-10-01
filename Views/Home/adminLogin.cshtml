@@ -1,0 +1,21 @@
+<div class="nav-admin">
+    <div class="container">
+        <ul>
+            <a href="/"><li>Shaker</li></a>
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <div class="section-light admin-login">
+        <h1>Hello...are you an admin?</h1>
+        <p style="color:red;">@ViewBag.AdminLoginError</p>
+        <form action="/admin/login" method="post">
+            <p>Administrator:</p>
+            <input type="text" name="username" id="">
+            <p>Password:</p>
+            <input type="password" name="password" id="">
+            <p>
+            <input class="button" type="submit" value="Login">
+        </form>
+    </div>
+</div>

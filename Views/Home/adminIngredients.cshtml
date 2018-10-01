@@ -1,0 +1,65 @@
+@model shaker.Models.Ingredient
+<div class="nav-admin">
+    <div class="container">
+        <ul>
+            <a href="/"><li>Shaker</li></a>
+            <a href="/admin/dashboard"><li>Dashboard</li></a>
+        </ul>
+    </div>
+</div>
+<div class="container section-light">
+    <h1>Ingredients</h1>
+    <div class="admin-table">
+        <table class="table-striped">
+            <thead>
+                <col width="5%">
+                <col width="19%">
+                <col width="19%">
+                <col width="19%">
+                <col width="19%">
+                <col width="19%">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Created Date</th>
+                <th>Action</th>
+            </thead>
+            @foreach(var i in ViewBag.ingredients) {
+                <tr>
+                    <td>@i.id</td>
+                    <td>@i.name</td>
+                    <td>@i.description</td>
+                    <td>@i.category.category</td>
+                    <td>@i.created_at.ToString("d")</td>
+                    <td>
+                        <a href="/admin/ingredient/edit/@i.id"><button class="button">Edit</button></a>
+                        <a href="/admin/ingredient/remove/@i.id"><button class="button">Remove</button></a>
+                    </td>
+                </tr>
+            }
+            
+        </table>
+    </div>
+    <h3>Add an ingredient</h3>
+    <form asp-action="createIngredient" asp-controller="Home" method="post">
+        <p>
+            Name:<br>
+            <input type="text"  autocomplete="off" asp-for="name">
+            <br>
+            Description:<br>
+            <textarea asp-for="description" cols="30" rows="5"></textarea>
+            <br>
+            Category:
+            <select asp-for="category_id">
+                @foreach(var c in ViewBag.categories) {
+                    <option value="@c.id">@c.category</option>
+                }
+            </select>
+            <br>
+            Image Url:<br>
+            <input type="text" autocomplete="off"  asp-for="url">
+        </p>
+        <input type="submit" value="Add" class="button">
+    </form>
+</div>

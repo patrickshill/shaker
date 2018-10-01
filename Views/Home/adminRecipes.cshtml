@@ -1,0 +1,96 @@
+<div class="nav-admin">
+    <div class="container">
+        <ul>
+            <a href="/"><li>Shaker</li></a>
+            <a href="/admin/dashboard"><li>Dashboard</li></a>
+        </ul>
+    </div>
+</div>
+<div class="container section-light">
+    <h1>Recipes</h1>
+    <div class="admin-table">
+        <table class="table-striped">
+            <thead>
+                <col width="10%">
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Created Date</th>
+                <th>Action</th>
+            </thead>
+            @foreach(var rec in ViewBag.recipes) {
+
+                <tr>
+                    <td>@rec.id</td>
+                    <td>@rec.name</td>
+                    <td>@rec.description</td>
+                    <td>@rec.created_at.ToString("d")</td>
+                    <td>
+                        <a href="/admin/ingredient/edit/@rec.id"><button class="button">Edit</button></a>
+                        <a href="/admin/ingredient/remove/@rec.id"><button class="button">Remove</button></a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <h3>Add a recipe</h3>
+    <form asp-action="createRecipe" asp-controller="Home" method="post">
+        <p>
+            Name:<br>
+            <input type="text" autocomplete="off" name="name">
+            <br>
+            <div id="ingredients-container">
+                Ingredients: <br>
+                <ul id="ingredient-list">
+                </ul>
+                <br>
+                <select id="ing">
+                    @foreach(var i in ViewBag.ingredients) {
+                        <option value="@i.id">@i.name</option>
+                    }
+                </select>
+                Measurement: 
+                <input type="number"  autocomplete="off" id="ing-measurement"> 
+                Units:
+                <input type="text" autocomplete="off" id="ing-units"> 
+                <button class="button-small" id="add-ingredient">Add</button>
+            </div>
+            <br>
+            Description:<br>
+            <textarea name="description" cols="30" rows="5"></textarea>
+            <br>
+            Directions:<br>
+            <textarea name="directions" cols="30" rows="5"></textarea>
+        </p>
+        <input type="submit" value="Add" class="button">
+    </form>
+</div>
+<script>
+    $(document).ready(function(){
+        var ingredientCount = 0;
+        $("#add-ingredient").click(function() {
+            //validations
+            if($("#ing-measurement").val() == "" || $("#ing-units").val() == "") {
+                return false;
+            }
+            console.log($("#ing"));
+            $("#ingredient-list").append(
+                `<li>${$("#ing-measurement").val()} ${$("#ing-units").val()} ${$("#ing option:selected").text()}</li>`
+            )
+            $("#ingredients-container").append(
+                
+                `<input type="hidden" value="${$("#ing").val()}" name="ings">
+                <input type="hidden" value="${$("#ing-measurement").val()}" name="ingMeasurements">
+                <input type="hidden" value="${$("#ing-units").val()}" name="ingUnits">`
+            )
+
+            //Reset form
+            ingredientCount++;
+            return false;
+        })
+    });
+</script>

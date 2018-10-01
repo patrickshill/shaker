@@ -1,0 +1,11 @@
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\bin\Debug\netcoreapp2.0\shaker.deps.json
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\bin\Debug\netcoreapp2.0\shaker.runtimeconfig.json
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\bin\Debug\netcoreapp2.0\shaker.runtimeconfig.dev.json
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\bin\Debug\netcoreapp2.0\shaker.dll
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\bin\Debug\netcoreapp2.0\shaker.pdb
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\obj\Debug\netcoreapp2.0\shaker.csprojResolveAssemblyReference.cache
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\obj\Debug\netcoreapp2.0\shaker.csproj.CoreCompileInputs.cache
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\obj\Debug\netcoreapp2.0\shaker.AssemblyInfoInputs.cache
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\obj\Debug\netcoreapp2.0\shaker.AssemblyInfo.cs
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\obj\Debug\netcoreapp2.0\shaker.dll
+C:\Users\Patrick\Documents\CodingDojo\C#\shaker\obj\Debug\netcoreapp2.0\shaker.pdb

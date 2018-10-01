@@ -1,0 +1,26 @@
+<div class="nav-main">
+    <ul id="nav-list">
+        <a href="/classics"><li>Classics</li></a>
+        <a href="/userrecipes"><li>User Recipes</li></a>
+        <a href="/">
+            <li id="logo-bg-small">
+                <img id="nav-logo-small" src="~/images/Shakerlogo.svg" alt="">
+                <div ></div>
+            </li>
+        </a>
+        <a href="/about"><li>About</li></a>
+        <a href="/login"><li>Login</li></a>
+    </ul>
+</div>
+<div class="container">
+    <div class="section-light" id="section-recipe">
+        <h1>@ViewBag.recipe.name</h1>
+        <p>Description:</p>
+        <p>@ViewBag.recipe.description</p>
+        <h3>Ingredients:</h3>
+        @foreach(var ing in ViewBag.recipe.ingredients) {
+            <p>@ing.measurement @ing.units @ing.ingredient.name</p>
+        }
+        <p>@ViewBag.recipe.directions</p>
+    </div>
+</div>

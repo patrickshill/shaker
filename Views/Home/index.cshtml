@@ -1,0 +1,206 @@
+@Html.Partial("navigation")
+<!-- <div id="splash-header">
+    <div id="splash-header-logo-bg">
+        <img src="~/images/Shakerlogo.svg" alt="">
+    </div>
+</div> -->
+<div class="nav-main">
+    <ul id="nav-list">
+        <a href="/classics"><li>Classics</li></a>
+        <a href="/userrecipes"><li>User Recipes</li></a>
+        <a href="/">
+            <li id="logo-bg">
+                <img id="nav-logo" src="~/images/Shakerlogo.svg" alt="">
+                <div ></div>
+            </li>
+        </a>
+        <a href="/about"><li>About</li></a>
+        <a href="/login"><li>Login</li></a>
+    </ul>
+</div>
+<div class="section-cover" id="home-splash">
+    <div class="container">
+        <span id="script-font">Get Shaking</span><br>
+        <hr class="hr-thin">
+        <hr class="hr-thick">
+        <span id="splash-tag">DISCOVER NEW DRINKS</span>
+    </div>
+</div>
+<div class="container" id="getting-started">
+    <div id="tile" class="section-dark">
+        <h1>
+            <img src="~/images/left-flourish1.svg" alt="" id="left-flourish">
+            <span class="script-font">Getting Started</span>
+            <img src="~/images/right-flourish1.svg" alt="" id="right-flourish">
+        </h1>
+        <h3>Use Shaker to discover old and new cocktail recipes, or even craft your own!</h3>
+        <div class="stamp-cards">
+            <div class="stamp-card">
+                <img src="~/images/the_classics.svg" alt="" id="stamp1" class="stamp">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nemo autem nihil dolore vitae optio officiis sed corporis provident! Earum eos aut commodi a consectetur voluptas pariatur quaerat dolorem aliquid.</p>
+            </div>
+            <div class="stamp-card">
+                <img src="~/images/build_your_cabinet.svg" alt="" id="stamp2" class="stamp">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nemo autem nihil dolore vitae optio officiis sed corporis provident! Earum eos aut commodi a consectetur voluptas pariatur quaerat dolorem aliquid.</p>
+            </div>
+            <div class="stamp-card">
+                <img src="~/images/craft_your_own.svg" alt="" id="stamp3" class="stamp">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nemo autem nihil dolore vitae optio officiis sed corporis provident! Earum eos aut commodi a consectetur voluptas pariatur quaerat dolorem aliquid.</p>
+            </div>
+        </div>
+        <button class="hover-scale">Start Shaking</button>
+    </div>
+</div>
+<div id="cover-quote">
+    <div class="contain">
+        <h1>"You can't buy happiness but you can prepare a cocktail and that's kind of the same thing"</h1>
+    </div>
+</div>
+<div class="container" id="section-signup">
+    <div class="half"></div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var logoSmall = false;
+        anime({
+            targets:['#nav-logo','#logo-bg'],
+            width: 180,
+            duration: 0
+        })
+        
+        var wHeight = $(window).height();
+        //adjust wHeight on window resize
+        $(window).resize(function() {
+            wHeight = $(window).height();
+        })
+
+        //Scroll variables
+        var scrollPos = $(document).scrollTop();
+        var stampsSeen = false;
+        var stampPos = $("#stamp1").offset();
+        var stampsIntroPlayed = false;
+        $(document).scroll(function() {
+            scrollPos = $(document).scrollTop();
+            if(scrollPos > 100 && logoSmall == false) {
+                logoSmall = true;
+                anime.remove('#logo-bg');
+                anime.remove('#nav-logo');
+                var logoSize = anime({
+                    targets: ['#nav-logo','#logo-bg'],
+                    width: 120,
+                    duration: 1000
+                });
+            } else {
+                if(scrollPos < 100 && logoSmall == true) {
+                    logoSmall = false;
+                    anime.remove('#logo-bg');
+                    anime.remove('#nav-logo');
+                    var logoSize = anime({
+                        targets: ['#nav-logo','#logo-bg'],
+                        width: 180,
+                        duration: 1000
+                    })
+                }
+            }
+
+            //Stamps
+            
+            //console.log(stampPos["top"] - wHeight/2)
+            if(!stampsSeen && scrollPos > stampPos["top"] - (wHeight*0.75)) {
+                stampsSeen = true;
+                anime({
+                    targets: "#stamp1",
+                    opacity: [
+                        {value: 0, duration: 0},
+                        {value: 1, duration: 1000}
+                    ],
+                    scale: [
+                        {value: 0.5, duration: 0},
+                        {value: 1.2, duration: 2000 },
+                        {value: 1, duration: 500 }
+                    ],
+                    translateY: [
+                        {value: -20, duration: 2000},
+                        {value: 0, duration: 500}
+                    ]
+                })
+                anime({
+                    targets: "#stamp2",
+                    delay: 500,
+                    opacity: [
+                        {value: 0, duration: 0},
+                        {value: 1, duration: 1000}
+                    ],
+                    scale: [
+                        {value: 0.5, duration: 0},
+                        {value: 1.2, duration: 2000 },
+                        {value: 1, duration: 500 }
+                    ],
+                    translateY: [
+                        {value: -20, duration: 2000},
+                        {value: 0, duration: 500}
+                    ]
+                })
+                anime({
+                    targets: "#stamp3",
+                    delay: 1000,
+                    opacity: [
+                        {value: 0, duration: 0},
+                        {value: 1, duration: 1000}
+                    ],
+                    scale: [
+                        {value: 0.5, duration: 0},
+                        {value: 1.2, duration: 2000 },
+                        {value: 1, duration: 500 }
+                    ],
+                    translateY: [
+                        {value: -20, duration: 2000},
+                        {value: 0, duration: 500}
+                    ],
+                    complete: function(){
+                        stampsIntroPlayed = true;
+                    }
+                })
+            }
+        })
+    
+        //Stamp mouse hover after intro played
+        $(".stamp").hover(function() {
+            if(stampsIntroPlayed) {
+                anime.remove(this);
+                anime({
+                    targets: this,
+                    scale: 1.1,
+                    duration: 1000
+                });
+            }
+        },function() {
+            if(stampsIntroPlayed) {
+                anime.remove(this);
+                anime({
+                    targets: this,
+                    scale: 1,
+                    duration: 1000
+                });
+            }
+        });
+
+        //Hover scale class
+        $(".hover-scale").hover(function() {
+            anime.remove(this);
+            anime({
+                targets: this,
+                scale: 1.1,
+                duration: 1000
+            });
+        },function() {
+            anime.remove(this);
+            anime({
+                targets: this,
+                scale: 1,
+                duration: 1000
+            });
+        });
+    });
+</script>

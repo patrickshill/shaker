@@ -1,0 +1,187 @@
+<div class="nav-main">
+    <ul id="nav-list">
+        <a href="/classics"><li>Classics</li></a>
+        <a href="/userrecipes"><li>User Recipes</li></a>
+        <a href="/">
+            <li id="logo-bg-small">
+                <img id="nav-logo-small" src="~/images/Shakerlogo.svg" alt="">
+                <div ></div>
+            </li>
+        </a>
+        <a href="/about"><li>About</li></a>
+        <a href="/login"><li>Login</li></a>
+    </ul>
+</div>
+<div class="container" >
+    <div class="section-dark" id="classics-search">
+        <h1 id="classics-header">Classics</h1>
+        <h3>Search by recipe</h3>
+        <form action="/classics/search" method="post">
+            <input type="text" autocomplete="off"  name="search" id="">
+            <br>
+            <input class="shake-button" type="submit" value="Shake!">
+        </form>
+        <h3>Search by ingredients</h3>
+        <form action="/classics/searchIngredients" method="post" id="ingredients">
+            <ul id="category-tabs">
+                <li id="spirits">Spirit</li>
+                <li id="liqueurs">Liqueur</li>
+                <li id="mixers">Mixer</li>
+                <li id="produce">Produce</li>
+            </ul>
+            <input type="text"  autocomplete="off" name="ing-filter" id="">
+            <div id="ingredient-selection">
+            </div>
+            <!-- Selected ingredients -->
+            <h3>Selected</h3>
+            <div id="selected-ingredients">
+            </div>
+            <div id="ingredient-inputs" style="display:none;"></div>
+            <br>
+            <input class="shake-button" type="submit" value="Shake!">
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $.get("/categories/spirits",function(response) {
+            console.log(response);
+            $("#ingredient-selection").html("");
+            for(let i=0;i<response.length;i++) {
+                $("#ingredient-selection").append(
+                    `<div class="ingredient" ing-id="${response[i][0]}">${response[i][1]}</div>`
+                );
+            }
+
+            //add selected class
+            $("#spirits").addClass("tab-selected");
+            $("#liqueurs").removeClass("tab-selected");
+            $("#mixers").removeClass("tab-selected");
+            $("#produce").removeClass("tab-selected");
+
+        });
+
+        $("#spirits").click(function() {
+            console.log("Clicked on spirits");
+            $("#ingredient-selection").html("");
+            $.get("/categories/spirits",function(response) {
+                for(let i=0;i<response.length;i++) {
+                    $("#ingredient-selection").append(
+                        `<div class="ingredient" ing-id="${response[i][0]}">${response[i][1]}</div>`
+                    );
+                }
+
+            //add selected class
+            $("#spirits").addClass("tab-selected");
+            $("#liqueurs").removeClass("tab-selected");
+            $("#mixers").removeClass("tab-selected");
+            $("#produce").removeClass("tab-selected");
+            });
+        });
+
+        $("#liqueurs").click(function() {
+            console.log("Clicked on liquers");
+            $.get("/categories/liqueurs",function(response) {
+                $("#ingredient-selection").html("");
+                for(let i=0;i<response.length;i++) {
+                    $("#ingredient-selection").append(
+                        `<div class="ingredient" ing-id="${response[i][0]}">${response[i][1]}</div>`
+                    );
+                }
+
+                //add selected class
+                $("#spirits").removeClass("tab-selected");
+                $("#liqueurs").addClass("tab-selected");
+                $("#mixers").removeClass("tab-selected");
+                $("#produce").removeClass("tab-selected");
+            });
+        });
+
+        $("#mixers").click(function() {
+            console.log("Clicked mixers");
+            $("#ingredient-selection").html("");
+            $.get("/categories/mixers",function(response) {
+                for(let i=0;i<response.length;i++) {
+                    $("#ingredient-selection").append(
+                        `<div class="ingredient" ing-id="${response[i][0]}">${response[i][1]}</div>`
+                    );
+                }
+
+                //add selected class
+                $("#spirits").removeClass("tab-selected");
+                $("#liqueurs").removeClass("tab-selected");
+                $("#mixers").addClass("tab-selected");
+                $("#produce").removeClass("tab-selected");
+            });
+        });
+
+        $("#produce").click(function() {
+            console.log("clicked produce");
+            $("#ingredient-selection").html = "";
+            $.get("/categories/produce",function(response) {
+                console.log(response);
+                for(let i=0;i<response.length;i++) {
+                    $("#ingredient-selection").append(
+                        `<div class="ingredient" ing-id="${response[i][0]}">${response[i][1]}</div>`
+                    );
+                }
+
+                //add selected class
+                $("#spirits").removeClass("tab-selected");
+                $("#liqueurs").removeClass("tab-selected");
+                $("#mixers").removeClass("tab-selected");
+                $("#produce").addClass("tab-selected");
+            });
+        });
+        var selectedIngs = [];
+        $(document).on('click',".ingredient",function() {
+            selectedIngs.push({
+                "id" : $(this).attr("ing-id"),
+                "name" : $(this).html()
+            });
+
+            //clear selected ingredients/inputs and repopulate
+            $("#selected-ingredients").html("");
+            $("#ingredient-inputs").html("");
+            for(let ing in selectedIngs) {
+                $("#selected-ingredients").append(
+                    `<div class="ingredient-selected ing-id="${selectedIngs[ing]["id"]}">${selectedIngs[ing]["name"]}</div>`
+                );
+
+                //set hidden inputs for form submission
+                $("#ingredient-inputs").append(
+                    `<input type="hidden" name="ings" value="${selectedIngs[ing]["id"]}">`
+                );
+            }
+        });
+
+        //Deselect ingredients
+        $(document).on("click",".ingredient-selected",function() {
+            let id = $(this).attr("ing-id");
+            console.log(id);
+            //find and remove from selectedIngs[]
+            for(let i=0;i<selectedIngs.length;i++) {
+                let compare = $(selectedIngs[i]).attr("ing-id");
+                if(id == compare) {
+                    selectedIngs.splice(i,1);
+                    console.log(selectedIngs);
+                    break;
+                }
+            }
+            //clear and repopulate selected ingredients
+            $("#selected-ingredients").html("");
+            $("#ingredient-inputs").html("");
+            for(let ing in selectedIngs) {
+                $("#selected-ingredients").append(
+                    `<div class="ingredient-selected ing-id="${selectedIngs[ing]["id"]}">${selectedIngs[ing]["name"]}</div>`
+                );
+
+                //set hidden inputs for form submission
+                $("#ingredient-inputs").append(
+                    `<input type="hidden" name="ings" value="${selectedIngs[ing]["id"]}">`
+                );
+            }
+        });
+    });
+</script>
